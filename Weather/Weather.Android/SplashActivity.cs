@@ -2,27 +2,16 @@
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.OS;
+using Android.Runtime;
 using AndroidX.AppCompat.App;
 
 namespace Weather.Droid
 {
+    [Preserve(AllMembers = true)]
     [Activity(Label = "Weather", MainLauncher = true, Theme = "@style/splashscreen", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation, NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
         #region Override Methods
-
-        public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
-        {
-            base.OnCreate(savedInstanceState, persistentState);
-            this.InitializView(savedInstanceState);
-        }
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-            this.InitializView(savedInstanceState);
-        }
 
         protected async override void OnResume()
         {
@@ -36,10 +25,6 @@ namespace Weather.Droid
 
         #region Private Methods
 
-        private void InitializView(Bundle savedInstanceState)
-        {
-            SetContentView(Resource.Layout.SplashScreen);
-        }
 
         private async Task StartupApp()
         {

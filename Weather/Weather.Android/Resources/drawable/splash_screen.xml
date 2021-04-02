@@ -4,7 +4,6 @@
   <item
       android:gravity="center"
       android:tileMode="disabled"
-      android:bottom="225dp"
       android:drawable="@drawable/ic_weatherlogo">
   </item>
 </layer-list>

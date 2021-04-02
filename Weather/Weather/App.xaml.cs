@@ -1,9 +1,10 @@
 ﻿using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+using Xamarin.Forms.Internals;
 
 namespace Weather
 {
+    [Preserve(AllMembers = true)]
     public partial class App : Application
     {
         public App()
