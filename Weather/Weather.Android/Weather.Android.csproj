@@ -71,6 +71,8 @@
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Mapping\SearchBarExtRenderer.cs" />
     <Compile Include="Helper\XamarinExtension.cs" />
+    <Compile Include="Dependency\Message.cs" />
+    <Compile Include="Constants\NativeAppConstants.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -118,6 +120,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Dependency\" />
+    <Folder Include="Constants\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Weather\Weather.csproj">

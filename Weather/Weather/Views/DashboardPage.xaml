@@ -1,22 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Weather.Views.DashboardPage" Title="Weather"
+             x:Class="Weather.Views.DashboardPage" Title="WEATHER"
              xmlns:viewModel="clr-namespace:Weather.ViewModels"
              xmlns:controls="clr-namespace:Weather.Controls">
     <ContentPage.BindingContext>
         <viewModel:DashboardViewModel/>
     </ContentPage.BindingContext>
-    <AbsoluteLayout BackgroundColor="AliceBlue">
+    <AbsoluteLayout>
+        <AbsoluteLayout.Background>
+        <LinearGradientBrush StartPoint="0,0"
+                             EndPoint="0,1">
+            <GradientStop Color="LightBlue"
+                          Offset="0.1"/>
+            <GradientStop Color="LightSteelBlue"
+                          Offset="1.0"/>
+        </LinearGradientBrush>
+        </AbsoluteLayout.Background>
         <controls:SearchBarGrid x:Name="searchGrid" ColumnSpacing="0" AbsoluteLayout.LayoutFlags="All"
                                 Padding="0,0,8,0"
-                                SearchBarPosition="{Binding SearchBarPosition}" BackgroundColor="LightBlue">
+                                SearchBarPosition="{Binding SearchBarPosition}" BackgroundColor="LightSkyBlue">
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*"/>
                   <ColumnDefinition Width="0.6*"/>
               </Grid.ColumnDefinitions>
-            <controls:SearchBarExt Placeholder="Search by City" SearchCommand="{Binding GetWeatherCommand}" Grid.Column="0"/>
+            <controls:SearchBarExt Placeholder="Search by City" PlaceholderColor="White"
+                                   TextColor="Black"
+                                   SearchCommand="{Binding GetWeatherCommand}" Grid.Column="0"/>
             <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"/>
         </controls:SearchBarGrid>
-      </AbsoluteLayout>
+     </AbsoluteLayout>
 </ContentPage>

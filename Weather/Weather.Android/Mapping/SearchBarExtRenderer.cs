@@ -7,12 +7,14 @@ using Weather.Platform.Mapping;
 using Android.Content;
 using Android.Runtime;
 using Android.Widget;
+using Weather.Droid.Constants;
 using Weather.Droid.Mapping;
 using Xamarin.Forms.Platform.Android;
 using AndroiView = Android.Views.View;
 #elif iOS
 using Foundation;
 using UIKit;
+using Weather.iOS.Constants;
 using Weather.iOS.Mapping;
 using Xamarin.Forms.Platform.iOS;
 #endif
@@ -39,15 +41,6 @@ namespace Weather.iOS.Mapping
 #endif
         #endregion
 
-        #region Properties
-
-        public SearchBarExt SearchBarExt
-        {
-            get { return this.Element as SearchBarExt; }
-        }
-
-        #endregion
-
         #region Constructor
 #if Android
         public SearchBarExtRenderer(Context context) : base(context)
@@ -60,6 +53,15 @@ namespace Weather.iOS.Mapping
 
         }
 #endif
+        #endregion
+
+        #region Properties
+
+        public SearchBarExt SearchBarExt
+        {
+            get => this.Element as SearchBarExt; 
+        }
+
         #endregion
 
         #region Override Methods
@@ -76,10 +78,10 @@ namespace Weather.iOS.Mapping
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             base.OnElementPropertyChanged(sender, e);
-            if (e.PropertyName == SearchBarExt.UnderlineColorProperty.PropertyName)
-                this.UpdateUnderLineColor();
-            else if (e.PropertyName == VisualElement.IsFocusedProperty.PropertyName)
+            if (e.PropertyName == VisualElement.IsFocusedProperty.PropertyName)
+            {
                 this.UpdateSearchIconColor();
+            }
         }
 
         #endregion
@@ -93,21 +95,22 @@ namespace Weather.iOS.Mapping
 #if Android
             if (searchPlateView == null)
             {
-                int searchPlateId = Control.Context.Resources.GetIdentifier("android:id/search_plate", null, null);
+                int searchPlateId = Control.Context.Resources.GetIdentifier(NativeAppConstants.SearchPlate, null, null);
                 searchPlateView = Control.FindViewById(searchPlateId);
             }
 
-            searchPlateView.SetBackgroundColor(this.SearchBarExt.UnderlineColor.ToAndroid());
+            searchPlateView.SetBackgroundColor(Color.Transparent.ToAndroid());
 #elif iOS
             if (textField == null || clearButton == null)
             {
-                NSString _searchField = new NSString("searchField");
+                NSString _searchField = new NSString(NativeAppConstants.SearchField);
                 textField = (UITextField)Control.ValueForKey(_searchField);
                 textField.BorderStyle = UITextBorderStyle.None;
                 textField.BackgroundColor = UIColor.Clear;
-                NSString _clearButton = new NSString("_clearButton");
+                NSString _clearButton = new NSString(NativeAppConstants.ClearButton);
                 clearButton = (UIButton)textField.ValueForKey(_clearButton);
-                var imageicon = XamarinExtensions.ConvertFontIconToUIImage("FontAwesome5Pro-Light", 20, Color.FromHex("#131E27").ToUIColor(), "\uf057").ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate); ;
+                var imageicon = XamarinExtensions.ConvertFontIconToUIImage(NativeAppConstants.FontAwesomeLight, 20,
+                    Color.FromHex(NativeAppConstants.PrimaryColor).ToUIColor(), NativeAppConstants.SearchIconGlyph).ImageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate);
                 clearButton.SetImage(imageicon, UIControlState.Normal);
                 Control.SearchBarStyle = UISearchBarStyle.Minimal;
                 Control.Layer.CornerRadius = 0;
@@ -127,12 +130,12 @@ namespace Weather.iOS.Mapping
 
         private void UpdateSearchIconColor()
         {
-            var focusColor = this.Element.IsFocused ? Color.FromHex("#3AD2FF") : Color.FromHex("#131E27");
+            var focusColor = this.Element.IsFocused ? Color.FromHex(NativeAppConstants.SecondaryColor) : Color.FromHex(NativeAppConstants.PrimaryColor);
             var nativeColor = focusColor.GetNativePlatformColor();
 #if Android
             if (searchImageView == null)
             { 
-                int imageSearchId = Control.Context.Resources.GetIdentifier("android:id/search_mag_icon", null, null);
+                int imageSearchId = Control.Context.Resources.GetIdentifier(NativeAppConstants.SearchImageIcon, null, null);
                 searchImageView = (ImageView)Control.FindViewById(imageSearchId);
             }
 

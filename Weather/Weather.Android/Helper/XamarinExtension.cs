@@ -15,6 +15,8 @@ namespace Weather.Platform.Mapping
     [Preserve(AllMembers = true)]
     internal static partial class XamarinExtensions
     {
+        #region Methods
+
         internal static UIColor GetNativePlatformColor(this Color color)
         {
 #if Android
@@ -25,7 +27,7 @@ namespace Weather.Platform.Mapping
         }
 
 #if iOS
-        public static UIImage ConvertFontIconToUIImage(string fontFamily, double fontSize, UIColor iconcolor, string glyph)
+        internal static UIImage ConvertFontIconToUIImage(string fontFamily, double fontSize, UIColor iconcolor, string glyph)
         {
             var cleansedname = CleanseFontName(fontFamily);
             var font = UIFont.FromName(cleansedname ?? string.Empty, (float)fontSize) ?? UIFont.SystemFontOfSize((float)fontSize);
@@ -67,5 +69,7 @@ namespace Weather.Platform.Mapping
             return fontFile.PostScriptName;
         }
 #endif
+
+        #endregion
     }
 }

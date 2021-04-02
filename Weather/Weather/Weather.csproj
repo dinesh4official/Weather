@@ -17,12 +17,14 @@
   <ItemGroup>
     <Folder Include="Controls\" />
     <Folder Include="Enum\" />
-    <Folder Include="Constants\" />
+    <Folder Include="Data\" />
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
     <Folder Include="Helper\" />
     <Folder Include="Helper\Converters\" />
     <Folder Include="Helper\Utils\" />
+    <Folder Include="Services\" />
+    <Folder Include="Helper\Interface\" />
   </ItemGroup>
 </Project>

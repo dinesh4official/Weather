@@ -2,7 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Weather.Enum;
-using Weather.Constants;
+using Weather.Data;
 using Weather.Helper.Utils;
 
 namespace Weather.Controls
