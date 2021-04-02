@@ -12,7 +12,7 @@ namespace Weather
         {
             InitializeComponent();
 
-            MainPage = new DashboardPage();
+            MainPage = new NavigationPage(new DashboardPage());
         }
 
         protected override void OnStart()

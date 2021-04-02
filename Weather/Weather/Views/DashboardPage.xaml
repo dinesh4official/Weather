@@ -9,12 +9,13 @@
     </ContentPage.BindingContext>
     <AbsoluteLayout BackgroundColor="AliceBlue">
         <controls:SearchBarGrid x:Name="searchGrid" ColumnSpacing="0" AbsoluteLayout.LayoutFlags="All"
+                                Padding="0,0,8,0"
                                 SearchBarPosition="{Binding SearchBarPosition}" BackgroundColor="LightBlue">
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="0.50*"/>
+                  <ColumnDefinition Width="0.6*"/>
               </Grid.ColumnDefinitions>
-            <controls:SearchBarExt Placeholder="Search by City" Grid.Column="0"/>
+            <controls:SearchBarExt Placeholder="Search by City" SearchCommand="{Binding GetWeatherCommand}" Grid.Column="0"/>
             <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"/>
         </controls:SearchBarGrid>
       </AbsoluteLayout>
