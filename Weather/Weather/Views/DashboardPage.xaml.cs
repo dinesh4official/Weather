@@ -7,14 +7,18 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
-namespace Weather
+namespace Weather.Views
 {
     [Preserve(AllMembers = true)]
-    public partial class MainPage : ContentPage
+    public partial class DashboardPage : ContentPage
     {
-        public MainPage()
+        #region Constructor
+
+        public DashboardPage()
         {
             InitializeComponent();
         }
+
+        #endregion
     }
 }
