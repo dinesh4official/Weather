@@ -7,6 +7,7 @@ using UIKit;
 
 namespace Weather.iOS
 {
+    [Preserve(AllMembers = true)]
     public class Application
     {
         // This is the main entry point of the application.
