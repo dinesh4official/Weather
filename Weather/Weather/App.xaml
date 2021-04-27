@@ -11,24 +11,37 @@
 
            <!--Style-->
           <Style x:Key="DefaultLabelStyle" TargetType="Label">
-            <Setter Property="TextColor" Value="Black"/>
-            <Setter Property="FontSize" Value="Body"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="13"/>
             <Setter Property="FontAttributes" Value="None"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
           </Style>
 
           <Style x:Key="HeaderLabelStyle" TargetType="Label">
-            <Setter Property="TextColor" Value="Black"/>
-            <Setter Property="FontSize" Value="Title"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+          </Style>
+
+          <Style x:Key="DefaultImageStyle" TargetType="Image">
+            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="WidthRequest" Value="40"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
           </Style>
 
            <!--Colors-->
           <Color x:Key="LoadingColor">#353186</Color>
+          <Color x:Key="ItemColor">#0067b1</Color>
+          <Color x:Key="BackgroundColor">#7585BA</Color>
 
             <!--Converters-->
           <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
           <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"/>
           <converter:PositionToVisibilityConverter x:Key="PositionToVisibilityConverter"/>
+          <converter:IconConverter x:Key="IconConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

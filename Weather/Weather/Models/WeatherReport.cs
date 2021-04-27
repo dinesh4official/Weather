@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Xamarin.Forms.Internals;
 
@@ -14,7 +12,7 @@ namespace Weather.Models
 
         public WeatherReport()
         {
-
+           
         }
 
         #endregion

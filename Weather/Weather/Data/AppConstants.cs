@@ -13,12 +13,15 @@ namespace Weather.Data
         public const string ErrorFormat = "\t\tError {0}";
         public const string ZipFormat = "?zip=";
         public const string QueryFormat = "?q=";
+        public const string DateFormat = "f";
+        public const string DayFormat = "dddd";
+        public const string DateMonthFormat = "dd MMM";
+        public const string CountryCode = ",us";
         public const string OpenWeatherMapAPIIDFormat = "&appid=";
-        public const string ImperialUnit = "&units=imperial";
+        public const string MetricUnit = "&units=metric";
         public const string CityJSONFilePath = "Resources.citylist.json";
         public const string BooleanTarget = "The target should be a boolean";
         public const string LongTarget = "The target should be a long";
-        public const string UTC = "UTC";
         public const string DataLoadingMessage = "Please wait while we fetch the data";
         public const string SearchTextEmpty = "Please enter the valid data";
     }

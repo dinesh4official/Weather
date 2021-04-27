@@ -82,6 +82,9 @@
     <Compile Include="..\Weather.Android\Constants\NativeAppConstants.cs">
       <Link>Constants\NativeAppConstants.cs</Link>
     </Compile>
+    <Compile Include="..\Weather.Android\Mapping\GridExtRenderer.cs">
+      <Link>Mapping\GridExtRenderer.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />

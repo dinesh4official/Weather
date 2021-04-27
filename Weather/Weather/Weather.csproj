@@ -27,5 +27,34 @@
     <Folder Include="Helper\Utils\" />
     <Folder Include="Services\" />
     <Folder Include="Helper\Interface\" />
+    <Folder Include="Views\Template\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Images\temperature.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\background.jpg" />
+    <EmbeddedResource Include="Images\overlay.png" />
+    <EmbeddedResource Include="Images\gauge.png" />
+    <EmbeddedResource Include="Images\humidity.png" />
+    <EmbeddedResource Include="Images\temperature.png" />
+    <EmbeddedResource Include="Images\w01d.png" />
+    <EmbeddedResource Include="Images\w01n.png" />
+    <EmbeddedResource Include="Images\w02d.png" />
+    <EmbeddedResource Include="Images\w02n.png" />
+    <EmbeddedResource Include="Images\w09n.png" />
+    <EmbeddedResource Include="Images\w09d.png" />
+    <EmbeddedResource Include="Images\w04n.png" />
+    <EmbeddedResource Include="Images\w04d.png" />
+    <EmbeddedResource Include="Images\w03n.png" />
+    <EmbeddedResource Include="Images\w03d.png" />
+    <EmbeddedResource Include="Images\w10d.png" />
+    <EmbeddedResource Include="Images\w10n.png" />
+    <EmbeddedResource Include="Images\w11d.png" />
+    <EmbeddedResource Include="Images\w11n.png" />
+    <EmbeddedResource Include="Images\w13d.png" />
+    <EmbeddedResource Include="Images\w13n.png" />
+    <EmbeddedResource Include="Images\w50n.png" />
+    <EmbeddedResource Include="Images\w50d.png" />
   </ItemGroup>
 </Project>

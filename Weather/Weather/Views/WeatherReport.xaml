@@ -3,16 +3,79 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:controls="clr-namespace:Weather.Controls"
+    xmlns:imageUtil="clr-namespace:Weather.Helper.Utils;assembly=Weather"
+    xmlns:template="clr-namespace:Weather.Views.Template"
     x:Class="Weather.Views.WeatherReport" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+    Padding="0,8,0,0"
     HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
     <controls:ScrollViewExt.Content>
-       <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-           <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*"/>
-           </Grid.ColumnDefinitions>
-           <Frame HasShadow="True" BorderColor="LightGray" BackgroundColor="Transparent">
-               <Label Style="{x:StaticResource HeaderLabelStyle}" Text="{Binding SelectedCityReport.CityName}"/>
-           </Frame>
-      </Grid>
+      <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" Padding="8,0,8,0"
+            IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}">
+         <Grid.RowDefinitions>
+                 <RowDefinition Height="*"/>
+                 <RowDefinition Height="160"/>
+              </Grid.RowDefinitions>
+                <StackLayout Spacing="20">
+                    <StackLayout Orientation="Horizontal" Spacing="50" HorizontalOptions="FillAndExpand">
+                        <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
+                            <Image Source="{Binding SelectedCityReport.Weather[0].Icon, Converter={StaticResource IconConverter}}"
+                                   WidthRequest="67" HeightRequest="50"/>
+                            <Label Text="{Binding SelectedCityReport.Weather[0].Description}"
+                                   TextTransform="Uppercase"
+                                   Style="{StaticResource DefaultLabelStyle}"/>
+                        </StackLayout>
+                        <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
+                            <Label Text="{Binding SelectedCityReport.CityName}" Style="{StaticResource HeaderLabelStyle}"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                                   WidthRequest="67" HeightRequest="50"/>
+                            <Label Text="{Binding SelectedCityReport.Date, Converter={x:StaticResource LongToDateTimeConverter}}"
+                                   Style="{StaticResource DefaultLabelStyle}"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <StackLayout Spacing="24" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label Text="{Binding SelectedCityReport.MainWeather.Temperature, StringFormat='{0}°'}" Style="{StaticResource DefaultLabelStyle}"
+                                   FontSize="Header"/>
+                        <Label Text="CELSIUS" Margin="0,-30,0,0" Style="{StaticResource DefaultLabelStyle}"/>
+                    </StackLayout>
+                    <Grid ColumnSpacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <template:ReportItemView Source="{imageUtil:ImageResource Weather.Images.humidity.png}"
+                                                 ItemTitle="Humidity" ItemValue="{Binding SelectedCityReport.MainWeather.Humidity, StringFormat='{0} %'}"/>
+                        <template:ReportItemView Source="{imageUtil:ImageResource Weather.Images.temperature.png}" Grid.Column="1"
+                                                 ItemTitle="Min Temperature" ItemValue="{Binding SelectedCityReport.MainWeather.MinTemperature, StringFormat='{0}°C'}"/>
+                        <template:ReportItemView Source="{imageUtil:ImageResource Weather.Images.gauge.png}" Grid.Column="2"
+                                                 ItemTitle="Pressure" ItemValue="{Binding SelectedCityReport.MainWeather.Pressure, StringFormat='{0} hpa'}"/>
+                        <template:ReportItemView Source="{imageUtil:ImageResource Weather.Images.temperature.png}" Grid.Column="3"
+                                                 ItemTitle="Max Temperature" ItemValue="{Binding SelectedCityReport.MainWeather.MaxTemperature, StringFormat='{0}°C'}"/>
+                    </Grid>
+          </StackLayout>
+          <CollectionView x:Name="forecastCollectionView" Grid.Row="1" SelectionMode="None" ItemsSource="{Binding ForecastReports}"
+                          HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never"
+                          BackgroundColor="{StaticResource BackgroundColor}"
+                          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                          ItemsLayout="HorizontalList" EmptyView="Oops, Something Went Wrong">
+              <CollectionView.ItemTemplate>
+                 <DataTemplate>
+                   <controls:GridExt BackgroundColor="{StaticResource ItemColor}" HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand">
+                     <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label Text="{Binding Date, Converter={StaticResource LongToDateTimeConverter}, ConverterParameter='dddd'}"
+                               Style="{StaticResource DefaultLabelStyle}"/>
+                        <Label Margin="0,-5,0,0" Style="{StaticResource DefaultLabelStyle}" FontSize="10"
+                               Text="{Binding Date, Converter={StaticResource LongToDateTimeConverter}, ConverterParameter='ddMMM'}"/>
+                        <Image Source="{Binding Weather[0].Icon, Converter={StaticResource IconConverter}}" Margin="0,20"
+                               Style="{StaticResource DefaultImageStyle}"/>
+                        <Label Text="{Binding MainWeather.Temperature, StringFormat='{0}°C'}" Style="{StaticResource DefaultLabelStyle}" FontSize="16"/>
+                     </StackLayout>
+                    </controls:GridExt>
+                 </DataTemplate>
+              </CollectionView.ItemTemplate>
+          </CollectionView>
+     </Grid>
     </controls:ScrollViewExt.Content>
 </controls:ScrollViewExt>

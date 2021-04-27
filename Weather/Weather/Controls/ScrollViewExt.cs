@@ -76,7 +76,7 @@ namespace Weather.Controls
         /// </summary>
         private void UpdatePosition()
         {
-            double position = DeviceUtils.IsLandscapeOrientation ? 0.8 : 0.9;
+            double position = AppUtils.IsLandscapeOrientation ? 0.8 : 0.9;
             Rectangle rectangle = new Rectangle(0, position, 1, position); ;
             AbsoluteLayout.SetLayoutBounds(this, rectangle);
         }

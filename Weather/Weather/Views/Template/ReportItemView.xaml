@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<StackLayout
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="ItemView"
+    Orientation="Vertical" Spacing="10" HorizontalOptions="CenterAndExpand"
+    x:Class="Weather.Views.Template.ReportItemView">
+  <Image Source="{Binding Source, Source={x:Reference ItemView}}"
+          Style="{StaticResource DefaultImageStyle}"/>
+   <StackLayout Spacing="7" HorizontalOptions="CenterAndExpand">
+       <Label Text="{Binding ItemValue, Source={x:Reference ItemView}}"
+              Style="{StaticResource HeaderLabelStyle}" FontSize="16"
+              HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+       <Label Text="{Binding ItemTitle, Source={x:Reference ItemView}}" Margin="0,-5,0,0" Style="{StaticResource DefaultLabelStyle}"
+              HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+    </StackLayout>
+</StackLayout>

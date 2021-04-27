@@ -73,6 +73,7 @@
     <Compile Include="Helper\XamarinExtension.cs" />
     <Compile Include="Dependency\Message.cs" />
     <Compile Include="Constants\NativeAppConstants.cs" />
+    <Compile Include="Mapping\GridExtRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

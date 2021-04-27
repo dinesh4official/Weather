@@ -3,25 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Weather.Views.DashboardPage" Title="WEATHER"
              xmlns:viewModel="clr-namespace:Weather.ViewModels"
+             xmlns:imageUtil="clr-namespace:Weather.Helper.Utils;assembly=Weather"
              xmlns:view="clr-namespace:Weather.Views"
              xmlns:controls="clr-namespace:Weather.Controls">
     <ContentPage.BindingContext>
         <viewModel:DashboardViewModel/>
     </ContentPage.BindingContext>
-    <Grid>
-      <AbsoluteLayout>
-        <AbsoluteLayout.Background>
-        <LinearGradientBrush StartPoint="0,0"
-                             EndPoint="0,1">
-            <GradientStop Color="LightBlue"
-                          Offset="0.1"/>
-            <GradientStop Color="LightSteelBlue"
-                          Offset="1.0"/>
-        </LinearGradientBrush>
-        </AbsoluteLayout.Background>
+    <Grid RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Background Image-->
+        <Image Aspect="AspectFill" Source="{imageUtil:ImageResource Weather.Images.background.jpg}" Opacity="0.5"
+               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+        <Image Aspect="AspectFill" Source="{imageUtil:ImageResource Weather.Images.overlay.png}" Opacity="0.5"
+               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+      <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" BackgroundColor="Transparent">
+          <!--Search Bar Grid-->
         <controls:SearchBarGrid x:Name="searchGrid" ColumnSpacing="0" AbsoluteLayout.LayoutFlags="All"
                                 Padding="0,0,8,0"
-                                SearchBarPosition="{Binding SearchBarPosition}" BackgroundColor="LightSkyBlue">
+                                SearchBarPosition="{Binding SearchBarPosition}" BackgroundColor="{StaticResource ItemColor}">
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*"/>
                   <ColumnDefinition Width="0.6*"/>
@@ -33,13 +34,14 @@
                                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                                    Grid.Column="0"/>
             <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"
-                    IsEnabled="{Binding IsReportLoading, Converter={x:StaticResource InverseBoolConverter}}"/>
+                    IsEnabled="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}"/>
         </controls:SearchBarGrid>
         <view:WeatherReport IsVisible="{Binding SearchBarPosition, Converter={x:StaticResource PositionToVisibilityConverter}}"
                             AbsoluteLayout.LayoutFlags="All"/>
        </AbsoluteLayout>
 
-       <ActivityIndicator IsVisible="{Binding IsReportLoading}" IsRunning="{Binding IsReportLoading}"
+       <!--Indicator-->
+       <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
                           Color="{StaticResource LoadingColor}" HorizontalOptions="CenterAndExpand"
                           VerticalOptions="CenterAndExpand"/>
    </Grid>

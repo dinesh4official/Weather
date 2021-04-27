@@ -14,6 +14,8 @@ namespace Weather.ViewModels
         #region Fields
 
         bool hasNetworkConnection;
+        bool hasDataError;
+        bool isLoading;
 
         #endregion
 
@@ -45,6 +47,26 @@ namespace Weather.ViewModels
             }
         }
 
+        public bool HasDataError
+        {
+            get => hasDataError;
+            set
+            {
+                hasDataError = value;
+                OnPropertyChanged(nameof(HasDataError));
+            }
+        }
+
+        public bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+
         #endregion
 
         #region Network Detector
@@ -55,11 +77,11 @@ namespace Weather.ViewModels
             HasNetworkConnection = !(e.NetworkAccess == NetworkAccess.None || e.NetworkAccess == NetworkAccess.Unknown);
             if (HasNetworkConnection)
             {
-                DeviceUtils.ShowAlert(AppConstants.AvailableConnection, false);
+                AppUtils.ShowAlert(AppConstants.AvailableConnection, false);
             }
             else
             {
-                DeviceUtils.ShowAlert(AppConstants.NoConnection, true);
+                AppUtils.ShowAlert(AppConstants.NoConnection, true);
             }
         }
 

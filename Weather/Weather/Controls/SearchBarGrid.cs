@@ -119,7 +119,7 @@ namespace Weather.Controls
         void UpdateGridPosition()
         {
             double yPosition = this.SearchBarPosition == SearchBarPosition.Center ? 0.5 : 0;
-            double height = DeviceUtils.IsLandscapeOrientation ? 0.2 : 0.1;
+            double height = AppUtils.IsLandscapeOrientation ? 0.2 : 0.1;
             Rectangle rectangle = new Rectangle(0, yPosition, 1, height);
             AbsoluteLayout.SetLayoutBounds(this, rectangle);
         }

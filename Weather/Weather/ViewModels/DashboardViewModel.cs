@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Weather.Data;
 using Weather.Enum;
@@ -17,7 +20,7 @@ namespace Weather.ViewModels
 
         SearchBarPosition searchbarPosition;
         WeatherReport selectedCityReport;
-        bool isreportLoading;
+        ObservableCollection<WeatherReport> forecastreports;
         string searchText;
 
         #endregion
@@ -34,6 +37,8 @@ namespace Weather.ViewModels
 
         #region Properties
 
+        public ICommand GetWeatherCommand { get; set; }
+
         public SearchBarPosition SearchBarPosition
         {
             get => searchbarPosition;
@@ -43,8 +48,6 @@ namespace Weather.ViewModels
                 OnPropertyChanged(nameof(SearchBarPosition));
             }
         }
-
-        public ICommand GetWeatherCommand { get; set; }
 
         public string SearchBarText
         {
@@ -66,13 +69,13 @@ namespace Weather.ViewModels
             }
         }
 
-        public bool IsReportLoading
+        public ObservableCollection<WeatherReport> ForecastReports
         {
-            get { return isreportLoading; }
+            get => forecastreports;
             set
             {
-                isreportLoading = value;
-                OnPropertyChanged(nameof(IsReportLoading));
+                forecastreports = value;
+                OnPropertyChanged(nameof(ForecastReports));
             }
         }
 
@@ -82,19 +85,52 @@ namespace Weather.ViewModels
 
         public async void GetWeather()
         {
-            if (IsReportLoading)
+            if (!this.ValidateSearchText()) return;
+
+            IsLoading = true;
+            this.UpdateSearchBarPosition();
+            WeatherForecast forecast = null;
+            if (!IsNetworkDetected || HasNetworkConnection)
             {
-                DeviceUtils.ShowAlert(AppConstants.DataLoadingMessage, false);
-                return;
+                bool haspostalCode = int.TryParse(searchText, out int postalCode);
+                SelectedCityReport = haspostalCode ? await WeatherService.Instance.GetWeatherReportByPostal(postalCode)
+                    : await WeatherService.Instance.GetWeatherReportByCity(searchText);
+                forecast = haspostalCode ? await WeatherService.Instance.GetWeatherForecastByPostal(postalCode)
+                    : await WeatherService.Instance.GetWeatherForecastByCity(searchText);
+            }
+
+            if (SelectedCityReport == null)
+            {
+                AppUtils.ShowAlert(AppConstants.UnableTogetData, true);
+                HasDataError = true;
+            }
+            else
+            {
+                HasDataError = false;
+                this.UpdateForecastReports(forecast);
+            }
+
+            IsLoading = false;
+        }
+
+        private bool ValidateSearchText()
+        {
+            if (IsLoading)
+            {
+                AppUtils.ShowAlert(AppConstants.DataLoadingMessage, false);
+                return false;
             }
             else if (string.IsNullOrEmpty(searchText))
             {
-                DeviceUtils.ShowAlert(AppConstants.SearchTextEmpty, false);
-                return;
+                AppUtils.ShowAlert(AppConstants.SearchTextEmpty, false);
+                return false;
             }
 
-            IsReportLoading = true;
+            return true;
+        }
 
+        private void UpdateSearchBarPosition()
+        {
             //Restricting the search bar position to top only after first time due to specific requirement.
             if (searchbarPosition == SearchBarPosition.Center)
             {
@@ -102,20 +138,31 @@ namespace Weather.ViewModels
                     SearchBarPosition.Center ? SearchBarPosition.Top :
                     SearchBarPosition.Center;
             }
+        }
 
-            if(!IsNetworkDetected || HasNetworkConnection)
+        private void UpdateForecastReports(WeatherForecast forecast)
+        {
+            if (forecast != null)
             {
-                bool haspostalCode = int.TryParse(searchText, out int postalCode);
-                SelectedCityReport = haspostalCode ? await WeatherService.Instance.GetWeatherReportByPostal(postalCode)
-                    : await WeatherService.Instance.GetWeatherReportByCity(searchText);
-            }
+                List<WeatherReport> weatherReports = new List<WeatherReport>();
+                foreach (WeatherReport report in forecast.WeatherReport)
+                {
+                    DateTime date = AppUtils.GetDateTime(report.Date);
+                    if (date != null && date > DateTime.Now && date.Hour == 0 && date.Minute == 0 && date.Second == 0)
+                        weatherReports.Add(report);
+                }
 
-            if (SelectedCityReport == null)
+                if (weatherReports.Count > 3)
+                {
+                    weatherReports = weatherReports.Take(4).ToList();
+                }
+
+                ForecastReports = new ObservableCollection<WeatherReport>(weatherReports);
+            }
+            else
             {
-                DeviceUtils.ShowAlert(AppConstants.UnableTogetData, true);
+                ForecastReports = new ObservableCollection<WeatherReport>();
             }
-
-            IsReportLoading = false;
         }
 
         #endregion
