@@ -52,7 +52,7 @@ namespace Weather.Services
             return await GetReportAsync(url).ConfigureAwait(false);
         }
 
-        public async Task<WeatherReport> GetWeatherReportByPostal(string postalCode)
+        public async Task<WeatherReport> GetWeatherReportByPostal(int postalCode)
         {
             //If country is not specified then the search works for USA as a default.
             string url = APIConstants.OpenWeatherMapBaseUrl;

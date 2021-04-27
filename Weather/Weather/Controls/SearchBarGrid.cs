@@ -34,7 +34,7 @@ namespace Weather.Controls
         /// Bindable property for <see cref="SearchBarPosition"/>
         /// </summary>
         public static readonly BindableProperty SearchBarPositionProperty =
-             BindableProperty.Create(AppConstants.SearchBarPosition, typeof(SearchBarPosition), typeof(SearchBarGrid),
+             BindableProperty.Create(nameof(SearchBarPosition), typeof(SearchBarPosition), typeof(SearchBarGrid),
                  SearchBarPosition.Center, propertyChanged: OnSearchBarPositionChanged);
 
         #endregion
@@ -94,7 +94,7 @@ namespace Weather.Controls
         /// <summary>
         /// Notified when <see cref="SearchBarPosition"/> property gets updated.
         /// </summary>
-        /// <param name="bindable">Represents the <see cref="SearchView"/>.</param>
+        /// <param name="bindable">Represents the <see cref="SearchBarGrid"/>.</param>
         /// <param name="oldValue">Indicates the previous value of <see cref="SearchViewPosition"/>.</param>
         /// <param name="newValue">Indicates the current value of <see cref="SearchViewPosition"/>.</param>
         private static void OnSearchBarPositionChanged(BindableObject bindable, object oldValue, object newValue)

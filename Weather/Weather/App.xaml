@@ -1,10 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converter="clr-namespace:Weather.Helper.Converters"
              x:Class="Weather.App">
     <Application.Resources>
          <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeLight">
             <On Platform="iOS" Value="FontAwesome5Pro-Light" />
         </OnPlatform>
+        <ResourceDictionary>
+
+           <!--Style-->
+          <Style x:Key="DefaultLabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="Body"/>
+            <Setter Property="FontAttributes" Value="None"/>
+          </Style>
+
+          <Style x:Key="HeaderLabelStyle" TargetType="Label">
+            <Setter Property="TextColor" Value="Black"/>
+            <Setter Property="FontSize" Value="Title"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+          </Style>
+
+           <!--Colors-->
+          <Color x:Key="LoadingColor">#353186</Color>
+
+            <!--Converters-->
+          <converter:InverseBoolConverter x:Key="InverseBoolConverter" />
+          <converter:LongToDateTimeConverter x:Key="LongToDateTimeConverter"/>
+          <converter:PositionToVisibilityConverter x:Key="PositionToVisibilityConverter"/>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

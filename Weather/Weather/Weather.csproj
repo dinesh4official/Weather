@@ -28,10 +28,4 @@
     <Folder Include="Services\" />
     <Folder Include="Helper\Interface\" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="Resources\citylist.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="**/*" />
-  </ItemGroup>
 </Project>

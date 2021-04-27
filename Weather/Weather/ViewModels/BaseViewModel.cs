@@ -2,9 +2,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Weather.Data;
-using Weather.Helper.Interface;
+using Weather.Helper.Utils;
 using Xamarin.Essentials;
-using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace Weather.ViewModels
@@ -34,6 +33,8 @@ namespace Weather.ViewModels
 
         #region Properties
 
+        public bool IsNetworkDetected { get; set; }
+
         public bool HasNetworkConnection
         {
             get => hasNetworkConnection;
@@ -50,14 +51,15 @@ namespace Weather.ViewModels
 
         void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
+            IsNetworkDetected = true;
             HasNetworkConnection = !(e.NetworkAccess == NetworkAccess.None || e.NetworkAccess == NetworkAccess.Unknown);
             if (HasNetworkConnection)
             {
-                DependencyService.Get<IMessage>().ShortAlert(AppConstants.AvailableConnection);
+                DeviceUtils.ShowAlert(AppConstants.AvailableConnection, false);
             }
             else
             {
-                DependencyService.Get<IMessage>().LongAlert(AppConstants.NoConnection);
+                DeviceUtils.ShowAlert(AppConstants.NoConnection, true);
             }
         }
 

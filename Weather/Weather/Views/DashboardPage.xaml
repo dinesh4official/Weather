@@ -3,11 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Weather.Views.DashboardPage" Title="WEATHER"
              xmlns:viewModel="clr-namespace:Weather.ViewModels"
+             xmlns:view="clr-namespace:Weather.Views"
              xmlns:controls="clr-namespace:Weather.Controls">
     <ContentPage.BindingContext>
         <viewModel:DashboardViewModel/>
     </ContentPage.BindingContext>
-    <AbsoluteLayout>
+    <Grid>
+      <AbsoluteLayout>
         <AbsoluteLayout.Background>
         <LinearGradientBrush StartPoint="0,0"
                              EndPoint="0,1">
@@ -24,10 +26,21 @@
                   <ColumnDefinition Width="*"/>
                   <ColumnDefinition Width="0.6*"/>
               </Grid.ColumnDefinitions>
-            <controls:SearchBarExt Placeholder="Search by City" PlaceholderColor="White"
+            <controls:SearchBarExt x:Name="searchBar" Placeholder="Search by City" PlaceholderColor="White"
                                    TextColor="Black"
-                                   SearchCommand="{Binding GetWeatherCommand}" Grid.Column="0"/>
-            <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"/>
+                                   Text="{Binding SearchBarText}"
+                                   SearchCommand="{Binding GetWeatherCommand}"
+                                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                                   Grid.Column="0"/>
+            <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"
+                    IsEnabled="{Binding IsReportLoading, Converter={x:StaticResource InverseBoolConverter}}"/>
         </controls:SearchBarGrid>
-     </AbsoluteLayout>
+        <view:WeatherReport IsVisible="{Binding SearchBarPosition, Converter={x:StaticResource PositionToVisibilityConverter}}"
+                            AbsoluteLayout.LayoutFlags="All"/>
+       </AbsoluteLayout>
+
+       <ActivityIndicator IsVisible="{Binding IsReportLoading}" IsRunning="{Binding IsReportLoading}"
+                          Color="{StaticResource LoadingColor}" HorizontalOptions="CenterAndExpand"
+                          VerticalOptions="CenterAndExpand"/>
+   </Grid>
 </ContentPage>

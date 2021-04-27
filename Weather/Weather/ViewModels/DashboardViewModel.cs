@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Reflection;
-using Newtonsoft.Json;
+using System.Windows.Input;
 using Weather.Data;
 using Weather.Enum;
+using Weather.Helper.Utils;
 using Weather.Models;
+using Weather.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
@@ -18,8 +16,9 @@ namespace Weather.ViewModels
         #region Fields
 
         SearchBarPosition searchbarPosition;
-
-        ObservableCollection<CityInfo> cityInfos;
+        WeatherReport selectedCityReport;
+        bool isreportLoading;
+        string searchText;
 
         #endregion
 
@@ -27,7 +26,6 @@ namespace Weather.ViewModels
 
         public DashboardViewModel()
         {
-            this.GetCities();
             searchbarPosition = SearchBarPosition.Center;
             GetWeatherCommand = new Command(GetWeather);
         }
@@ -46,46 +44,81 @@ namespace Weather.ViewModels
             }
         }
 
-        public ObservableCollection<CityInfo> Cities
+        public ICommand GetWeatherCommand { get; set; }
+
+        public string SearchBarText
         {
-            get => cityInfos;
+            get => searchText;
             set
             {
-                cityInfos = value;
-                OnPropertyChanged(nameof(Cities));
+                searchText = value;
+                OnPropertyChanged(nameof(SelectedCityReport));
             }
         }
 
-        public Command GetWeatherCommand { get; set; }
+        public WeatherReport SelectedCityReport
+        {
+            get => selectedCityReport;
+            set
+            {
+                selectedCityReport = value;
+                OnPropertyChanged(nameof(SelectedCityReport));
+            }
+        }
+
+        public bool IsReportLoading
+        {
+            get { return isreportLoading; }
+            set
+            {
+                isreportLoading = value;
+                OnPropertyChanged(nameof(IsReportLoading));
+            }
+        }
 
         #endregion
 
         #region Callbacks
 
-        public void GetWeather()
+        public async void GetWeather()
         {
-            SearchBarPosition = searchbarPosition ==
-                SearchBarPosition.Center ? SearchBarPosition.Top :
-                SearchBarPosition.Center;
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void GetCities()
-        {
-            string jsonFileName = AppConstants.CityJSONFilePath;
-            Assembly assembly = Application.Current.MainPage.GetType().Assembly;
-            Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
-            using (var reader = new StreamReader(stream))
+            if (IsReportLoading)
             {
-                var json = reader.ReadToEnd();
-                List<CityInfo> citieslist = JsonConvert.DeserializeObject<List<CityInfo>>(json);
-                cityInfos = new ObservableCollection<CityInfo>(citieslist);
+                DeviceUtils.ShowAlert(AppConstants.DataLoadingMessage, false);
+                return;
             }
+            else if (string.IsNullOrEmpty(searchText))
+            {
+                DeviceUtils.ShowAlert(AppConstants.SearchTextEmpty, false);
+                return;
+            }
+
+            IsReportLoading = true;
+
+            //Restricting the search bar position to top only after first time due to specific requirement.
+            if (searchbarPosition == SearchBarPosition.Center)
+            {
+                SearchBarPosition = searchbarPosition ==
+                    SearchBarPosition.Center ? SearchBarPosition.Top :
+                    SearchBarPosition.Center;
+            }
+
+            if(!IsNetworkDetected || HasNetworkConnection)
+            {
+                bool haspostalCode = int.TryParse(searchText, out int postalCode);
+                SelectedCityReport = haspostalCode ? await WeatherService.Instance.GetWeatherReportByPostal(postalCode)
+                    : await WeatherService.Instance.GetWeatherReportByCity(searchText);
+            }
+
+            if (SelectedCityReport == null)
+            {
+                DeviceUtils.ShowAlert(AppConstants.UnableTogetData, true);
+            }
+
+            IsReportLoading = false;
         }
 
         #endregion
+
     }
 }
