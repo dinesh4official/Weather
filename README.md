@@ -10,6 +10,7 @@ In this application, we have followed the MVVM Pattern.
 * City Weather Information like temperature, humidity, pressure, minimum and maximum temperature.
 * Forecast Weather Information for upcoming four days.
 * Favourite Cities
+* Supported for both Portrait and Landscape mode.
 
 ## Information
 
