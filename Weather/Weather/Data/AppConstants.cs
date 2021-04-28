@@ -24,5 +24,6 @@ namespace Weather.Data
         public const string LongTarget = "The target should be a long";
         public const string DataLoadingMessage = "Please wait while we fetch the data";
         public const string SearchTextEmpty = "Please enter the valid data";
+        public const string DatabaseFilename = "WeatherSQLite.db3";
     }
 }

@@ -31,10 +31,10 @@ namespace Weather.ViewModels
         {
             searchbarPosition = SearchBarPosition.Center;
             GetWeatherCommand = new Command(GetWeather);
-            FavouriteCities = new Command(GetFavouriteCities);
             SelectFavourite = new Command(() =>
             {
                 SelectedCityReport.IsFavourie = !SelectedCityReport.IsFavourie;
+                UpdateCityInfoInDatabase(SelectedCityReport.CityName, SelectedCityReport.IsFavourie);
             });
         }
 
@@ -43,10 +43,6 @@ namespace Weather.ViewModels
         #region Properties
 
         public ICommand GetWeatherCommand { get; set; }
-
-        public ICommand FavouriteCities { get; set; }
-
-        public ICommand SelectFavourite { get; set; }
 
         public SearchBarPosition SearchBarPosition
         {
@@ -120,11 +116,6 @@ namespace Weather.ViewModels
             }
 
             IsLoading = false;
-        }
-
-        public void GetFavouriteCities()
-        {
-
         }
 
         private bool ValidateSearchText()

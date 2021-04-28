@@ -11,7 +11,7 @@
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>  
         <ToolbarItem IconImageSource="{imageUtil:ImageResource Weather.Images.favourite.png}" Priority="0"
-                     Order="Primary" Command="{Binding FavouriteCities}"/>
+                     Order="Primary" Command="{Binding FavouriteCitiesCommand}"/>
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>

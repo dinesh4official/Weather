@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Weather.Helper.Interface;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -42,6 +43,11 @@ namespace Weather.Helper.Utils
             {
                 yield return (T)item;
             }
+        }
+
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> enumerable)
+        {
+            return new ObservableCollection<T>(enumerable);
         }
 
         #endregion

@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Input;
 using Weather.Data;
 using Weather.Helper.Utils;
 using Weather.Models;
+using Weather.Services;
+using Weather.Views;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 
 namespace Weather.ViewModels
@@ -23,6 +30,14 @@ namespace Weather.ViewModels
         public BaseViewModel()
         {
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
+            FavouriteCities = new ObservableCollection<CityInfo>();
+            FavouriteCitiesCommand = new Command(async()=>
+            {
+                FavoriteCityPage favoriteCityPage = new FavoriteCityPage();
+                favoriteCityPage.BindingContext = this;
+                await Application.Current.MainPage.Navigation.PushAsync(favoriteCityPage);
+            });
+            InitializeDatabase();
         }
 
         ~BaseViewModel()
@@ -33,6 +48,10 @@ namespace Weather.ViewModels
         #endregion
 
         #region Properties
+
+        public ICommand FavouriteCitiesCommand { get; set; }
+
+        public ICommand SelectFavourite { get; set; }
 
         public bool IsNetworkDetected { get; set; }
 
@@ -66,6 +85,10 @@ namespace Weather.ViewModels
             }
         }
 
+        public WeatherDatabase WeatherDatabase { get; set; }
+
+        public ObservableCollection<CityInfo> FavouriteCities { get; set; }
+
         #endregion
 
         #region Network Detector
@@ -81,6 +104,41 @@ namespace Weather.ViewModels
             else
             {
                 AppUtils.ShowAlert(AppConstants.NoConnection, true);
+            }
+        }
+
+        #endregion
+
+        #region Weather Database
+
+        public async void InitializeDatabase()
+        {
+            IsLoading = true;
+            WeatherDatabase = await WeatherDatabase.Instance;
+            List<CityInfo> favcities  = await WeatherDatabase.GetItemsAsync();
+            FavouriteCities = favcities.ToObservableCollection();
+            IsLoading = false;
+        }
+
+        public void UpdateCityInfoInDatabase(string cityName, bool shouldAdd)
+        {
+            CityInfo cityinfo = FavouriteCities.FirstOrDefault(i => i.CityName == cityName);
+
+            if (shouldAdd)
+            {
+                if (cityinfo == null)
+                {
+                    cityinfo = new CityInfo();
+                    cityinfo.CityName = cityName;
+                    FavouriteCities.Add(cityinfo);
+                }
+
+                WeatherDatabase.SaveItemAsync(cityinfo);
+            }
+            else if (cityinfo == null)
+            {
+                FavouriteCities.Remove(cityinfo);
+                WeatherDatabase.DeleteItemAsync(cityinfo);
             }
         }
 
