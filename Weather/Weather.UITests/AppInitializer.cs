@@ -16,7 +16,8 @@ namespace Weather.UITests
                 deviceSerial = "JNIJAI95NRV8EY79";
                 packageName = "com.dinesh.weather";
                 return ConfigureApp.Android
-                    .EnableLocalScreenshots().InstalledApp(packageName)
+                    .EnableLocalScreenshots()
+                    .InstalledApp(packageName)
                     .DeviceSerial(deviceSerial)
                     .WaitTimes(new WaitTimes())
                     .StartApp();

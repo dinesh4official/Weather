@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using NUnit.Framework;
 using Xamarin.UITest;
 using Xamarin.UITest.Queries;
@@ -36,12 +37,18 @@ namespace Weather.UITests
         }
 
         [Test]
+        [Description("Check whether the SearchBar text is updated")]
         public void SearchBarTextUpdated()
         {
-            WeatherSearchBar.GetType().GetProperty("Text").SetValue(WeatherSearchBar, "New York");
-            string searchbarValue = WeatherSearchBar.GetType().GetProperty("Text").GetValue(WeatherSearchBar) as string;
-            app.Screenshot("SearchBar Text");
-            Assert.IsTrue(searchbarValue == "New York");
+            app.EnterText(WeatherSearchBar, "New York");
+        }
+
+        [Test]
+        [Description("Check whether the SearchBar button is clicked")]
+        public void SearchBarButtonIsClicked()
+        {
+            app.Tap(WeatherGetReportButton);
+            app.Screenshot("No_Items");
         }
     }
 }
