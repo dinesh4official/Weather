@@ -7,12 +7,18 @@ using Xamarin.UITest.Queries;
 
 namespace Weather.UITests
 {
+#if Android
     [TestFixture(Platform.Android)]
+#else
     [TestFixture(Platform.iOS)]
+#endif
     public class Tests
     {
         IApp app;
         Platform platform;
+
+        static readonly Func<AppQuery, AppQuery> WeatherSearchBar = c => c.Marked("WeatherSearchBar");
+        static readonly Func<AppQuery, AppQuery> WeatherGetReportButton = c => c.Marked("WeatherGetReport");
 
         public Tests(Platform platform)
         {
@@ -22,16 +28,20 @@ namespace Weather.UITests
         [SetUp]
         public void BeforeEachTest()
         {
-            app = AppInitializer.StartApp(platform);
+#if Android
+            app = AppInitializer.StartApp(Platform.Android);
+#else
+            app = AppInitializer.StartApp(Platform.iOS);
+#endif
         }
 
         [Test]
-        public void WelcomeTextIsDisplayed()
+        public void SearchBarTextUpdated()
         {
-            AppResult[] results = app.WaitForElement(c => c.Marked("Welcome to Xamarin.Forms!"));
-            app.Screenshot("Welcome screen.");
-
-            Assert.IsTrue(results.Any());
+            WeatherSearchBar.GetType().GetProperty("Text").SetValue(WeatherSearchBar, "New York");
+            string searchbarValue = WeatherSearchBar.GetType().GetProperty("Text").GetValue(WeatherSearchBar) as string;
+            app.Screenshot("SearchBar Text");
+            Assert.IsTrue(searchbarValue == "New York");
         }
     }
 }

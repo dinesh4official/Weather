@@ -14,43 +14,39 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
+    <DefineConstants>DEBUG;iOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>iOS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="Xamarin.UITest" Version="3.0.5" />
+    <PackageReference Include="NUnit" Version="2.6.4" />
     <PackageReference Include="Xamarin.Forms">
       <Version>5.0.0.2012</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Weather.iOS\Weather.iOS.csproj">
-      <Project>{45C2C44F-889E-42B7-B59F-22E806817805}</Project>
-      <Name>Weather.iOS</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Weather.Android\Weather.Android.csproj">
-      <Project>{9E2A08B8-92A5-4D64-90D6-3AE05FBAEE7D}</Project>
-      <Name>Weather.Android</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
+    <PackageReference Include="NUnitTestAdapter">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.UITest">
+      <Version>3.0.17</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tests.cs" />
     <Compile Include="AppInitializer.cs" />
+    <Compile Include="WaitTimes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -51,13 +51,13 @@
                   <ColumnDefinition Width="0.6*"/>
               </Grid.ColumnDefinitions>
             <controls:SearchBarExt x:Name="searchBar" Placeholder="Search by City" PlaceholderColor="White"
-                                   TextColor="Black"
+                                   TextColor="Black" AutomationId="WeatherSearchBar"
                                    Text="{Binding SearchBarText}"
                                    SearchCommand="{Binding GetWeatherCommand}"
                                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                                    Grid.Column="0"/>
             <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"
-                    BackgroundColor="{StaticResource ButtonColor}" TextColor="White" 
+                    BackgroundColor="{StaticResource ButtonColor}" TextColor="White" AutomationId="WeatherGetReport"
                     IsEnabled="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}"/>
         </controls:SearchBarGrid>
         <view:WeatherReport IsVisible="{Binding SearchBarPosition, Converter={x:StaticResource PositionToVisibilityConverter}}"

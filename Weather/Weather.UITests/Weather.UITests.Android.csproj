@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6A83BEAF-2A92-4124-A079-A6BAAD95AF9E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Weather.UITests</RootNamespace>
+    <AssemblyName>Weather.UITests</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;Android</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <DefineConstants>Android</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="2.6.4" />
+    <PackageReference Include="Xamarin.Forms">
+      <Version>5.0.0.2012</Version>
+    </PackageReference>
+    <PackageReference Include="NUnitTestAdapter">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.UITest">
+      <Version>3.0.17</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Tests.cs" />
+    <Compile Include="AppInitializer.cs" />
+    <Compile Include="WaitTimes.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
