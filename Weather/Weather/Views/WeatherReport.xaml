@@ -11,12 +11,14 @@
     <controls:ScrollViewExt.Content>
       <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" Padding="8,0,8,0"
             IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}">
+       <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
+             IsVisible="{Binding HasDataError, Converter={x:StaticResource InverseBoolConverter}}">
          <Grid.RowDefinitions>
                  <RowDefinition Height="40"/>
                  <RowDefinition Height="*"/>
                  <RowDefinition Height="160"/>
               </Grid.RowDefinitions>
-                <ImageButton BackgroundColor="Transparent" Command="{Binding SelectFavourite}"
+                <ImageButton BackgroundColor="Transparent" Command="{Binding UpdateFavouriteCity}"
                              Margin="0,0,25,0" WidthRequest="40" HeightRequest="40"
                              HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand">
                     <ImageButton.Style>
@@ -39,7 +41,8 @@
                                    WidthRequest="67" HeightRequest="50"/>
                             <Label Text="{Binding SelectedCityReport.Weather[0].Description}"
                                    TextTransform="Uppercase"
-                                   Style="{StaticResource DefaultLabelStyle}"/>
+                                   Style="{StaticResource DefaultLabelStyle}"
+                                   HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
                         </StackLayout>
                         <StackLayout VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand">
                             <Label Text="{Binding SelectedCityReport.CityName}" Style="{StaticResource HeaderLabelStyle}"
@@ -93,6 +96,13 @@
                  </DataTemplate>
               </CollectionView.ItemTemplate>
           </CollectionView>
+       </Grid>
+      <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
+            IsVisible="{Binding HasDataError}">
+           <Label Text="Oops, Something Went Wrong"
+                  Style="{StaticResource DefaultLabelStyle}" FontSize="Title"
+                  HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+       </Grid>
      </Grid>
-    </controls:ScrollViewExt.Content>
+   </controls:ScrollViewExt.Content>
 </controls:ScrollViewExt>

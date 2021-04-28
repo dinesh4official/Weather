@@ -24,6 +24,10 @@ namespace Weather.Controls
 
         public GridExt()
         {
+            // Resetting the item index once it reaches the collection count.
+            if (NextId > 3)
+                NextId = 0;
+
             Index = NextId++;
         }
 

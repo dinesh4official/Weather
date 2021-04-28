@@ -31,7 +31,7 @@ namespace Weather.ViewModels
         {
             Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
             FavouriteCities = new ObservableCollection<CityInfo>();
-            FavouriteCitiesCommand = new Command(async()=>
+            FavouriteCitiesCommand = new Command(async () =>
             {
                 FavoriteCityPage favoriteCityPage = new FavoriteCityPage();
                 favoriteCityPage.BindingContext = this;
@@ -51,7 +51,9 @@ namespace Weather.ViewModels
 
         public ICommand FavouriteCitiesCommand { get; set; }
 
-        public ICommand SelectFavourite { get; set; }
+        public ICommand UpdateFavouriteCity { get; set; }
+
+        public ICommand SelectFavouriteCity { get; set; }
 
         public bool IsNetworkDetected { get; set; }
 
@@ -140,6 +142,11 @@ namespace Weather.ViewModels
                 FavouriteCities.Remove(cityinfo);
                 WeatherDatabase.DeleteItemAsync(cityinfo);
             }
+        }
+
+        public bool IsDatabaseHasCity(string cityName)
+        {
+            return FavouriteCities.Any(i => i.CityName == cityName);
         }
 
         #endregion
