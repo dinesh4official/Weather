@@ -12,10 +12,27 @@
       <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" Padding="8,0,8,0"
             IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}">
          <Grid.RowDefinitions>
+                 <RowDefinition Height="40"/>
                  <RowDefinition Height="*"/>
                  <RowDefinition Height="160"/>
               </Grid.RowDefinitions>
-                <StackLayout Spacing="20">
+                <ImageButton BackgroundColor="Transparent" Command="{Binding SelectFavourite}"
+                             Margin="0,0,25,0" WidthRequest="40" HeightRequest="40"
+                             HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand">
+                    <ImageButton.Style>
+                       <Style TargetType="{x:Type ImageButton}">
+                          <Style.Triggers>
+                             <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedCityReport.IsFavourie}" Value="false">
+                                <Setter Property="Source" Value="{imageUtil:ImageResource Weather.Images.addfavourite.png}"/>
+                             </DataTrigger>
+                             <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedCityReport.IsFavourie}" Value="true">
+                                <Setter Property="Source" Value="{imageUtil:ImageResource Weather.Images.removefavourite.png}"/>
+                             </DataTrigger>
+                         </Style.Triggers>
+                       </Style>
+                    </ImageButton.Style>
+                 </ImageButton>
+                <StackLayout Spacing="20" Grid.Row="1">
                     <StackLayout Orientation="Horizontal" Spacing="50" HorizontalOptions="FillAndExpand">
                         <StackLayout VerticalOptions="StartAndExpand" HorizontalOptions="CenterAndExpand">
                             <Image Source="{Binding SelectedCityReport.Weather[0].Icon, Converter={StaticResource IconConverter}}"
@@ -54,7 +71,7 @@
                                                  ItemTitle="Max Temperature" ItemValue="{Binding SelectedCityReport.MainWeather.MaxTemperature, StringFormat='{0}°C'}"/>
                     </Grid>
           </StackLayout>
-          <CollectionView x:Name="forecastCollectionView" Grid.Row="1" SelectionMode="None" ItemsSource="{Binding ForecastReports}"
+          <CollectionView x:Name="forecastCollectionView" Grid.Row="2" SelectionMode="None" ItemsSource="{Binding ForecastReports}"
                           HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never"
                           BackgroundColor="{StaticResource BackgroundColor}"
                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"

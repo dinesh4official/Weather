@@ -9,6 +9,10 @@
     <ContentPage.BindingContext>
         <viewModel:DashboardViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.ToolbarItems>  
+        <ToolbarItem IconImageSource="{imageUtil:ImageResource Weather.Images.favourite.png}" Priority="0"
+                     Order="Primary" Command="{Binding FavouriteCities}"/>
+    </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -34,6 +38,7 @@
                                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                                    Grid.Column="0"/>
             <Button Text="Get Weather" Command="{Binding GetWeatherCommand}" Grid.Column="1"
+                    BackgroundColor="{StaticResource ButtonColor}" TextColor="White" 
                     IsEnabled="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}"/>
         </controls:SearchBarGrid>
         <view:WeatherReport IsVisible="{Binding SearchBarPosition, Converter={x:StaticResource PositionToVisibilityConverter}}"

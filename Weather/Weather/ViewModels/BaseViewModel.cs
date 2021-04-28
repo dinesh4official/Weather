@@ -1,15 +1,14 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Weather.Data;
 using Weather.Helper.Utils;
+using Weather.Models;
 using Xamarin.Essentials;
 using Xamarin.Forms.Internals;
 
 namespace Weather.ViewModels
 {
     [Preserve(AllMembers = true)]
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : NotifyListener
     {
         #region Fields
 
@@ -83,17 +82,6 @@ namespace Weather.ViewModels
             {
                 AppUtils.ShowAlert(AppConstants.NoConnection, true);
             }
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

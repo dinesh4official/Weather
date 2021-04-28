@@ -30,10 +30,10 @@
     <Folder Include="Views\Template\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="Images\temperature.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Images\background.jpg" />
+    <EmbeddedResource Include="Images\favourite.png" />
+    <EmbeddedResource Include="Images\addfavourite.png" />
+    <EmbeddedResource Include="Images\removefavourite.png" />
     <EmbeddedResource Include="Images\overlay.png" />
     <EmbeddedResource Include="Images\gauge.png" />
     <EmbeddedResource Include="Images\humidity.png" />
