@@ -11,7 +11,7 @@ In this application, we have followed the MVVM Pattern.
 <img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_Android.png">
 
 ### iOS
-<img src="https://github.com/dinesh4official/Weather/blob/main/ScreenShot/Weather_iOS.png">
+<img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_iOS.png">
 
 ## Known Issue
 When the device is rotated, weather forecast view does not resize properly. Because, `Orientation` changes are not notified to child elements of the `CollectionView` 
