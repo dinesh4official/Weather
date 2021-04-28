@@ -98,7 +98,8 @@ namespace Weather.ViewModels
         void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             IsNetworkDetected = true;
-            HasNetworkConnection = !(e.NetworkAccess == NetworkAccess.None || e.NetworkAccess == NetworkAccess.Unknown);
+            HasNetworkConnection = !(e.NetworkAccess == NetworkAccess.None || e.NetworkAccess == NetworkAccess.Unknown
+                || e.NetworkAccess == NetworkAccess.Local);
             if (HasNetworkConnection)
             {
                 AppUtils.ShowAlert(AppConstants.AvailableConnection, false);

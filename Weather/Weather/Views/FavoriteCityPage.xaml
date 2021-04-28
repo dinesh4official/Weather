@@ -2,31 +2,41 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Name="favCityPage"
+    x:Name="favCityPage" Title="Favourite Cities"
     x:Class="Weather.Views.FavoriteCityPage">
     <ContentPage.Content>
-        <ListView CachingStrategy="RecycleElement" RowHeight="80" ItemsSource="{Binding FavouriteCities}">
-            <ListView.ItemTemplate>
+        <CollectionView ItemsSource="{Binding FavouriteCities}" SelectionMode="None" 
+                        HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never"
+                        BackgroundColor="{StaticResource ItemColor}"
+                        HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        ItemsLayout="VerticalList">
+             <CollectionView.EmptyView>
+                <ContentView>
+                   <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                      <Label Text="No items to display"
+                             Style="{StaticResource DefaultLabelStyle}" FontSize="Title"
+                             HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                   </StackLayout>
+                </ContentView>
+              </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.View>
-                            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                  RowSpacing="0" Padding="8,8,8,8" BackgroundColor="White">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding BindingContext.SelectFavouriteCity, Source={x:Reference favCityPage}}"
-                                        CommandParameter="{Binding CityName}"/>
-                                </Grid.GestureRecognizers>
-                               <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                                   BackgroundColor="{StaticResource BackgroundColor}">
-                                 <Label Text="{Binding CityName}" Style="{StaticResource HeaderLabelStyle}"
-                                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                               </Frame>
-                            </Grid>
-                        </ViewCell.View>
-                    </ViewCell>
+                   <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                         Margin="4,8,4,8"
+                         RowSpacing="0" Padding="8,8,8,8" BackgroundColor="Transparent">
+                        <Grid.GestureRecognizers>
+                           <TapGestureRecognizer
+                                 Command="{Binding BindingContext.SelectFavouriteCity, Source={x:Reference favCityPage}}"
+                                 CommandParameter="{Binding CityName}"/>
+                         </Grid.GestureRecognizers>
+                         <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                                BackgroundColor="{StaticResource BackgroundColor}">
+                             <Label Text="{Binding CityName}" Style="{StaticResource HeaderLabelStyle}"
+                                    HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                          </Frame>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-         </ListView>
+            </CollectionView.ItemTemplate>
+         </CollectionView>
     </ContentPage.Content>
 </ContentPage>

@@ -78,7 +78,16 @@
                           HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never"
                           BackgroundColor="{StaticResource BackgroundColor}"
                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-                          ItemsLayout="HorizontalList" EmptyView="Oops, Something Went Wrong">
+                          ItemsLayout="HorizontalList">
+             <CollectionView.EmptyView>
+                <ContentView>
+                   <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                      <Label Text="Oops, Something Went Wrong"
+                             Style="{StaticResource DefaultLabelStyle}" FontSize="Title"
+                             HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                   </StackLayout>
+                </ContentView>
+              </CollectionView.EmptyView>
               <CollectionView.ItemTemplate>
                  <DataTemplate>
                    <controls:GridExt BackgroundColor="{StaticResource ItemColor}" HorizontalOptions="FillAndExpand"
