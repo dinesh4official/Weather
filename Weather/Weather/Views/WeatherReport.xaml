@@ -6,11 +6,22 @@
     xmlns:imageUtil="clr-namespace:Weather.Helper.Utils;assembly=Weather"
     xmlns:template="clr-namespace:Weather.Views.Template"
     x:Class="Weather.Views.WeatherReport" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
-    Padding="0,8,0,0"
     HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
+    <controls:ScrollViewExt.Padding>
+       <OnPlatform x:TypeArguments="Thickness">
+             <On Platform="Android" Value="0, 8, 0, 0"/>
+             <On Platform="iOS" Value="0, 0, 0, 0"/>
+       </OnPlatform>
+    </controls:ScrollViewExt.Padding>
     <controls:ScrollViewExt.Content>
-      <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0" Padding="8,0,8,0"
+      <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
             IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}">
+        <Grid.Padding>
+          <OnPlatform x:TypeArguments="Thickness">
+             <On Platform="Android" Value="8,0,8,0"/>
+             <On Platform="iOS" Value="0,0,0,0"/>
+       </OnPlatform>
+        </Grid.Padding>
        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
              IsVisible="{Binding HasDataError, Converter={x:StaticResource InverseBoolConverter}}">
          <Grid.RowDefinitions>
@@ -19,8 +30,20 @@
                  <RowDefinition Height="160"/>
               </Grid.RowDefinitions>
                 <ImageButton BackgroundColor="Transparent" Command="{Binding UpdateFavouriteCity}"
-                             Margin="0,0,25,0" WidthRequest="40" HeightRequest="40"
+                             WidthRequest="40" HeightRequest="40"
                              HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand">
+                    <ImageButton.Padding>
+                        <OnPlatform x:TypeArguments="Thickness">
+                              <On Platform="iOS" Value="4,4,4,4" />
+                              <On Platform="Android" Value="0,0,0,0" />
+                       </OnPlatform>
+                    </ImageButton.Padding>
+                     <ImageButton.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                              <On Platform="iOS" Value="0,8,25,0" />
+                              <On Platform="Android" Value="0,0,25,0" />
+                       </OnPlatform>
+                    </ImageButton.Margin>
                     <ImageButton.Style>
                        <Style TargetType="{x:Type ImageButton}">
                           <Style.Triggers>
@@ -53,8 +76,15 @@
                         </StackLayout>
                     </StackLayout>
                     <StackLayout Spacing="24" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                        <Label Text="{Binding SelectedCityReport.MainWeather.Temperature, StringFormat='{0}°'}" Style="{StaticResource DefaultLabelStyle}"
-                                   FontSize="Header"/>
+                        <Label Text="{Binding SelectedCityReport.MainWeather.Temperature, StringFormat='{0}°'}"
+                               Style="{StaticResource DefaultLabelStyle}">
+                            <Label.FontSize>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                   <On Platform="iOS" Value="48" />
+                                   <On Platform="Android" Value="64" />
+                                </OnPlatform>
+                            </Label.FontSize>
+                        </Label>
                         <Label Text="CELSIUS" Margin="0,-30,0,0" Style="{StaticResource DefaultLabelStyle}"/>
                     </StackLayout>
                     <Grid ColumnSpacing="10" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">

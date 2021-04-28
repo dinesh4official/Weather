@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="14A343f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+  <dependencies>
+    <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+  </dependencies>
+  <objects>
+    <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+    <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    <view contentMode="scaleToFill" id="iN0-l3-epB">
+      <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+      <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+      <subviews>
+        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Icon-60.png" translatesAutoresizingMaskIntoConstraints="NO" id="2fi-Vc-Q9h">
+          <rect key="frame" x="157" y="166" width="166" height="147"/>
+        </imageView>
+      </subviews>
+      <color key="backgroundColor" red="0.20392156862745098" green="0.59607843137254901" blue="0.85882352941176465" alpha="1" colorSpace="deviceRGB"/>
+      <constraints>
+        <constraint firstAttribute="centerY" secondItem="2fi-Vc-Q9h" secondAttribute="centerY" id="4Qy-Ai-RmW"/>
+        <constraint firstAttribute="centerX" secondItem="2fi-Vc-Q9h" secondAttribute="centerX" id="Xaf-7q-VB0"/>
+        <constraint firstItem="kdW-wp-hmE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="-25" id="bcz-8f-4XL"/>
+        <constraint firstAttribute="bottom" secondItem="kdW-wp-hmE" secondAttribute="bottom" constant="-16" id="dyO-hz-lUO"/>
+        <constraint firstAttribute="trailing" secondItem="oo4-J8-zNh" secondAttribute="trailing" constant="-16" id="eMC-Y7-Zw2"/>
+        <constraint firstAttribute="centerX" secondItem="Jue-jM-25L" secondAttribute="centerX" id="hGL-kd-FnG"/>
+        <constraint firstAttribute="centerY" secondItem="Jue-jM-25L" secondAttribute="centerY" constant="-125" id="hOO-qR-GEP"/>
+        <constraint firstItem="oo4-J8-zNh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="-16" id="iJN-XV-iJk"/>
+      </constraints>
+      <nil key="simulatedStatusBarMetrics"/>
+      <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+      <point key="canvasLocation" x="404" y="445"/>
+    </view>
+  </objects>
+  <resources>
+    <image name="Icon-60.png" width="180" height="180"/>
+  </resources>
+</document>

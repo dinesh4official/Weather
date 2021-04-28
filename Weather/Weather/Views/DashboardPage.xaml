@@ -10,8 +10,27 @@
         <viewModel:DashboardViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.ToolbarItems>  
-        <ToolbarItem IconImageSource="{imageUtil:ImageResource Weather.Images.favourite.png}" Priority="0"
-                     Order="Primary" Command="{Binding FavouriteCitiesCommand}"/>
+        <ToolbarItem Priority="0" Command="{Binding FavouriteCitiesCommand}">
+            <ToolbarItem.Text>
+              <OnPlatform x:TypeArguments="x:String">
+                   <On Platform="iOS" Value="Favourites" />
+                   <On Platform="Android" Value="" />
+             </OnPlatform>
+            </ToolbarItem.Text>
+            <ToolbarItem.IconImageSource>
+              <OnPlatform x:TypeArguments="ImageSource">
+                 <On Platform="Android" Value="{imageUtil:ImageResource Weather.Images.favourite.png}" />
+             </OnPlatform>
+            </ToolbarItem.IconImageSource>
+            <ToolbarItem.Order>
+              <OnPlatform x:TypeArguments="ToolbarItemOrder">
+                <OnPlatform.Platforms>
+                   <On Platform="iOS" Value="Secondary" />
+                   <On Platform="Android" Value="Primary" />
+                </OnPlatform.Platforms>
+             </OnPlatform>
+            </ToolbarItem.Order>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>

@@ -85,9 +85,9 @@
     <Compile Include="..\Weather.Android\Mapping\GridExtRenderer.cs">
       <Link>Mapping\GridExtRenderer.cs</Link>
     </Compile>
+    <Compile Include="DynamicLaunchScreenViewController.cs" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
@@ -130,6 +130,8 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <InterfaceDefinition Include="MainStoryboard.storyboard" />
+    <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -159,5 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\fa-light-300.ttf" />
+    <BundleResource Include="Resources\Icon-60.png" />
   </ItemGroup>
 </Project>

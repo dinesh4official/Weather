@@ -125,7 +125,7 @@ namespace Weather.ViewModels
 
         public void UpdateCityInfoInDatabase(string cityName, bool shouldAdd)
         {
-            CityInfo cityinfo = FavouriteCities.FirstOrDefault(i => i.CityName == cityName);
+            CityInfo cityinfo = FavouriteCities.FirstOrDefault(i => i.CityName.Equals(cityName));
 
             if (shouldAdd)
             {
@@ -138,7 +138,7 @@ namespace Weather.ViewModels
 
                 WeatherDatabase.SaveItemAsync(cityinfo);
             }
-            else if (cityinfo == null)
+            else if (cityinfo != null)
             {
                 FavouriteCities.Remove(cityinfo);
                 WeatherDatabase.DeleteItemAsync(cityinfo);
@@ -147,7 +147,7 @@ namespace Weather.ViewModels
 
         public bool IsDatabaseHasCity(string cityName)
         {
-            return FavouriteCities.Any(i => i.CityName == cityName);
+            return FavouriteCities.Any(i => i.CityName.Equals(cityName));
         }
 
         #endregion
