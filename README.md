@@ -5,6 +5,11 @@ This application provides the weather information for the given city in the US r
 
 In this application, we have followed the MVVM Pattern.
 
+## Information
+
+* To store the favourite cities, we have internally created a database to store the information and loaded in the list.
+* Continuously monitoring the data connection in the application.
+
 ## Screenshot
 
 ### Android
