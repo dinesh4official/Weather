@@ -77,9 +77,6 @@
     <Compile Include="..\Weather.Android\Helper\XamarinExtension.cs">
       <Link>Helper\XamarinExtension.cs</Link>
     </Compile>
-    <Compile Include="..\Weather.Android\Dependency\Message.cs">
-      <Link>Dependency\Message.cs</Link>
-    </Compile>
     <Compile Include="..\Weather.Android\Constants\NativeAppConstants.cs">
       <Link>Constants\NativeAppConstants.cs</Link>
     </Compile>
@@ -87,6 +84,7 @@
       <Link>Mapping\GridExtRenderer.cs</Link>
     </Compile>
     <Compile Include="DynamicLaunchScreenViewController.cs" />
+    <Compile Include="Dependency\Message.cs" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
