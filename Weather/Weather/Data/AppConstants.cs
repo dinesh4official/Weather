@@ -7,6 +7,7 @@ namespace Weather.Data
     public static class AppConstants
     {
         public const string BindableError = "Invalid bindable object is assigned";
+        public const string NetworkDetector = "NetworkDetector";
         public const string AvailableConnection = "Network Connected";
         public const string NoConnection = "No Network Connection";
         public const string UnableTogetData = "Unable to get the information. Please check either the network connection or input data";
@@ -25,5 +26,8 @@ namespace Weather.Data
         public const string DataLoadingMessage = "Please wait while we fetch the data";
         public const string SearchTextEmpty = "Please enter the valid data";
         public const string DatabaseFilename = "WeatherSQLite.db3";
+        public const string PageBehaviorRegisterError = "PageCommandBehavior: Can't register the '{0}' event.";
+        public const string PageBehaviorDeRegisterError = "PageCommandBehavior: Can't de-register the '{0}' event.";
+        public const string OnEvent = "OnEvent";
     }
 }

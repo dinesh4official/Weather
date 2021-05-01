@@ -4,6 +4,7 @@
              x:Class="Weather.Views.DashboardPage" Title="WEATHER"
              xmlns:viewModel="clr-namespace:Weather.ViewModels"
              xmlns:imageUtil="clr-namespace:Weather.Helper.Utils;assembly=Weather"
+             xmlns:behavior="clr-namespace:Weather.Helper.Behavior;assembly=Weather"
              xmlns:view="clr-namespace:Weather.Views"
              xmlns:controls="clr-namespace:Weather.Controls">
     <ContentPage.BindingContext>
@@ -32,6 +33,9 @@
             </ToolbarItem.Order>
         </ToolbarItem>
     </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <behavior:PageCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand}"/>
+    </ContentPage.Behaviors>
     <Grid RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -52,7 +56,7 @@
               </Grid.ColumnDefinitions>
             <controls:SearchBarExt x:Name="searchBar" Placeholder="Search by City" PlaceholderColor="White"
                                    TextColor="Black" AutomationId="WeatherSearchBar"
-                                   Text="{Binding SearchBarText}"
+                                   Text="{Binding SelectedCityName}"
                                    SearchCommand="{Binding GetWeatherCommand}"
                                    SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
                                    Grid.Column="0"/>

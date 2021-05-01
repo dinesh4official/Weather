@@ -3,12 +3,20 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Name="favCityPage" Title="Favourite Cities"
+    xmlns:behavior="clr-namespace:Weather.Helper.Behavior;assembly=Weather"
     x:Class="Weather.Views.FavoriteCityPage">
+    <ContentPage.Behaviors>
+        <behavior:PageCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand}"/>
+    </ContentPage.Behaviors>
     <ContentPage.Content>
+      <Grid RowSpacing="0" BackgroundColor="{StaticResource ItemColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <CollectionView ItemsSource="{Binding FavouriteCities}" SelectionMode="None" 
                         HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never"
-                        BackgroundColor="{StaticResource ItemColor}"
                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+                        IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}"
                         ItemsLayout="VerticalList">
              <CollectionView.EmptyView>
                 <ContentView>
@@ -38,5 +46,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
          </CollectionView>
+          <!--Indicator-->
+       <ActivityIndicator IsVisible="{Binding IsLoading}" IsRunning="{Binding IsLoading}"
+                          Color="{StaticResource LoadingColor}" HorizontalOptions="CenterAndExpand"
+                          VerticalOptions="CenterAndExpand"/>
+     </Grid>
     </ContentPage.Content>
 </ContentPage>

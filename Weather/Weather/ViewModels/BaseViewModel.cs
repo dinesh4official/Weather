@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Weather.Data;
-using Weather.Helper.Utils;
+using Weather.Helper.Interface;
 using Weather.Models;
 using Weather.Services;
-using Weather.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -15,13 +14,14 @@ using Xamarin.Forms.Internals;
 namespace Weather.ViewModels
 {
     [Preserve(AllMembers = true)]
-    public class BaseViewModel : NotifyListener
+    public class BaseViewModel : NotifyListener, INetworkDetector
     {
         #region Fields
 
         bool hasNetworkConnection;
         bool hasDataError;
         bool isLoading;
+        string selectedcityName;
 
         #endregion
 
@@ -29,33 +29,14 @@ namespace Weather.ViewModels
 
         public BaseViewModel()
         {
-            Connectivity.ConnectivityChanged += Connectivity_ConnectivityChanged;
-            FavouriteCities = new ObservableCollection<CityInfo>();
-            FavouriteCitiesCommand = new Command(async () =>
-            {
-                FavoriteCityPage favoriteCityPage = new FavoriteCityPage();
-                favoriteCityPage.BindingContext = this;
-                await Application.Current.MainPage.Navigation.PushAsync(favoriteCityPage);
-            });
+            SubscribeNetworkDetector();
             InitializeDatabase();
-        }
-
-        ~BaseViewModel()
-        {
-            Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
+            SelectFavouriteCity = new Command<string>(SelectCity);
         }
 
         #endregion
 
         #region Properties
-
-        public ICommand FavouriteCitiesCommand { get; set; }
-
-        public ICommand UpdateFavouriteCity { get; set; }
-
-        public ICommand SelectFavouriteCity { get; set; }
-
-        public bool IsNetworkDetected { get; set; }
 
         public bool HasNetworkConnection
         {
@@ -87,27 +68,37 @@ namespace Weather.ViewModels
             }
         }
 
+        public string SelectedCityName
+        {
+            get => selectedcityName;
+            set
+            {
+                selectedcityName = value;
+                OnPropertyChanged(nameof(SelectedCityName));
+            }
+        }
+
         public WeatherDatabase WeatherDatabase { get; set; }
 
-        public ObservableCollection<CityInfo> FavouriteCities { get; set; }
+        #endregion
+
+        #region Command
+
+        public ICommand PageAppearingCommand { get; set; }
+
+        public ICommand SelectFavouriteCity { get; set; }
 
         #endregion
 
         #region Network Detector
 
-        void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        private void SubscribeNetworkDetector()
         {
-            IsNetworkDetected = true;
-            HasNetworkConnection = !(e.NetworkAccess == NetworkAccess.None || e.NetworkAccess == NetworkAccess.Unknown
-                || e.NetworkAccess == NetworkAccess.Local);
-            if (HasNetworkConnection)
+            HasNetworkConnection = Connectivity.NetworkAccess == NetworkAccess.Internet;
+            MessagingCenter.Subscribe<INetworkDetector, bool>(this, AppConstants.NetworkDetector, (sender, arg) =>
             {
-                AppUtils.ShowAlert(AppConstants.AvailableConnection, false);
-            }
-            else
-            {
-                AppUtils.ShowAlert(AppConstants.NoConnection, true);
-            }
+                HasNetworkConnection = arg;
+            });
         }
 
         #endregion
@@ -118,14 +109,13 @@ namespace Weather.ViewModels
         {
             IsLoading = true;
             WeatherDatabase = await WeatherDatabase.Instance;
-            List<CityInfo> favcities  = await WeatherDatabase.GetItemsAsync();
-            FavouriteCities = favcities.ToObservableCollection();
             IsLoading = false;
         }
 
-        public void UpdateCityInfoInDatabase(string cityName, bool shouldAdd)
+        public async void UpdateCityInfoInDatabase(string cityName, bool shouldAdd)
         {
-            CityInfo cityinfo = FavouriteCities.FirstOrDefault(i => i.CityName.Equals(cityName));
+            List<CityInfo> favcities = await WeatherDatabase.GetItemsAsync();
+            CityInfo cityinfo = favcities.FirstOrDefault(i => i.CityName.Equals(cityName));
 
             if (shouldAdd)
             {
@@ -133,21 +123,30 @@ namespace Weather.ViewModels
                 {
                     cityinfo = new CityInfo();
                     cityinfo.CityName = cityName;
-                    FavouriteCities.Add(cityinfo);
                 }
 
                 WeatherDatabase.SaveItemAsync(cityinfo);
             }
             else if (cityinfo != null)
             {
-                FavouriteCities.Remove(cityinfo);
                 WeatherDatabase.DeleteItemAsync(cityinfo);
             }
         }
 
-        public bool IsDatabaseHasCity(string cityName)
+        public async Task<bool> IsDatabaseHasCity(string cityName)
         {
-            return FavouriteCities.Any(i => i.CityName.Equals(cityName));
+            List<CityInfo> favcities = await WeatherDatabase.GetItemsAsync();
+            return favcities.Any(i => i.CityName.Equals(cityName));
+        }
+
+        #endregion
+
+        #region Command Callbacks
+
+        private async void SelectCity(string favouriteCity)
+        {
+            SelectedCityName = favouriteCity;
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
 
         #endregion

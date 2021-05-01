@@ -6,14 +6,8 @@ using Xamarin.Forms.Internals;
 namespace Weather.Models
 {
     [Preserve(AllMembers = true)]
-    public class WeatherReport : NotifyListener
+    public class WeatherReport 
     {
-        #region Fields
-
-        bool isFavourie;
-
-        #endregion
-
         #region Constructor
 
         public WeatherReport()
@@ -60,16 +54,6 @@ namespace Weather.Models
         /// </summary>
         [JsonProperty("sys")]
         public Sys System { get; set; } = new Sys();
-
-        public bool IsFavourie
-        {
-            get => isFavourie;
-            set
-            {
-                isFavourie = value;
-                OnPropertyChanged(nameof(IsFavourie));
-            }
-        }
 
         #endregion
     }

@@ -29,6 +29,7 @@
     <Folder Include="Services\" />
     <Folder Include="Helper\Interface\" />
     <Folder Include="Views\Template\" />
+    <Folder Include="Helper\Behavior\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Images\background.jpg" />

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SQLite;
+using Weather.Helper.Interface;
 using Weather.Helper.Utils;
 using Weather.Models;
 
 namespace Weather.Services
 {
     [Preserve(AllMembers = true)]
-    public class WeatherDatabase
+    public class WeatherDatabase : IWeatherDatabase
     {
         #region Fields
 
@@ -18,7 +19,7 @@ namespace Weather.Services
 
         #region Constructor
 
-        public WeatherDatabase()
+        private WeatherDatabase()
         {
             database = new SQLiteAsyncConnection(DatabaseUtils.DatabasePath, DatabaseUtils.Flags);
         }

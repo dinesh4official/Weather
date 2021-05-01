@@ -18,37 +18,28 @@ namespace Weather.ViewModels
     {
         #region Fields
 
+        ObservableCollection<WeatherReport> forecastreports;
         SearchBarPosition searchbarPosition;
         WeatherReport selectedCityReport;
-        ObservableCollection<WeatherReport> forecastreports;
-        string searchText;
+        bool isFavourie;
 
         #endregion
 
         #region Constructor
 
-        public DashboardViewModel()
+        public DashboardViewModel() 
         {
             searchbarPosition = SearchBarPosition.Center;
-            GetWeatherCommand = new Command(GetWeather);
-            UpdateFavouriteCity = new Command(() =>
-            {
-                SelectedCityReport.IsFavourie = !SelectedCityReport.IsFavourie;
-                UpdateCityInfoInDatabase(SelectedCityReport.CityName, SelectedCityReport.IsFavourie);
-            });
-            SelectFavouriteCity = new Command<string>(async (FavouriteCity) =>
-            {
-                SearchBarText = FavouriteCity;
-                this.GetWeather();
-                await Application.Current.MainPage.Navigation.PopAsync();
-            });
+            GetWeatherCommand = new Command(() => GetWeather(false));
+            UpdateFavouriteCity = new Command(GetUpdatedFavouriteCity);
+            FavouriteCitiesCommand = new Command(GetFavouriteCities);
+            PageAppearingCommand = new Command(OnPageAppearing);
+            FavouritesViewModel = new FavouritesViewModel();
         }
 
         #endregion
 
         #region Properties
-
-        public ICommand GetWeatherCommand { get; set; }
 
         public SearchBarPosition SearchBarPosition
         {
@@ -57,16 +48,6 @@ namespace Weather.ViewModels
             {
                 searchbarPosition = value;
                 OnPropertyChanged(nameof(SearchBarPosition));
-            }
-        }
-
-        public string SearchBarText
-        {
-            get => searchText;
-            set
-            {
-                searchText = value;
-                OnPropertyChanged(nameof(SearchBarText));
             }
         }
 
@@ -80,6 +61,17 @@ namespace Weather.ViewModels
             }
         }
 
+        public bool IsFavourie
+        {
+            get => isFavourie;
+            set
+            {
+                isFavourie = value;
+                OnPropertyChanged(nameof(IsFavourie));
+            }
+        }
+
+
         public ObservableCollection<WeatherReport> ForecastReports
         {
             get => forecastreports;
@@ -90,24 +82,37 @@ namespace Weather.ViewModels
             }
         }
 
+        public WeatherForecast WeatherForecast { get; set; }
+
+        public FavouritesViewModel FavouritesViewModel { get; set; }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand GetWeatherCommand { get; set; }
+
+        public ICommand FavouriteCitiesCommand { get; set; }
+
+        public ICommand UpdateFavouriteCity { get; set; }
+
         #endregion
 
         #region Callbacks
 
-        public async void GetWeather()
+        public async void GetWeather(bool isPageAppeared)
         {
-            if (!this.ValidateSearchText()) return;
+            if (!this.ValidateSearchText(isPageAppeared)) return;
 
             IsLoading = true;
             this.UpdateSearchBarPosition();
-            WeatherForecast forecast = null;
-            if (!IsNetworkDetected || HasNetworkConnection)
+            if (HasNetworkConnection)
             {
-                bool haspostalCode = int.TryParse(searchText, out int postalCode);
+                bool haspostalCode = int.TryParse(SelectedCityName, out int postalCode);
                 SelectedCityReport = haspostalCode ? await WeatherService.Instance.GetWeatherReportByPostal(postalCode)
-                    : await WeatherService.Instance.GetWeatherReportByCity(searchText);
-                forecast = haspostalCode ? await WeatherService.Instance.GetWeatherForecastByPostal(postalCode)
-                    : await WeatherService.Instance.GetWeatherForecastByCity(searchText);
+                    : await WeatherService.Instance.GetWeatherReportByCity(SelectedCityName);
+                WeatherForecast = haspostalCode ? await WeatherService.Instance.GetWeatherForecastByPostal(postalCode)
+                    : await WeatherService.Instance.GetWeatherForecastByCity(SelectedCityName);
             }
 
             if (SelectedCityReport == null)
@@ -118,28 +123,40 @@ namespace Weather.ViewModels
             else
             {
                 HasDataError = false;
-                SelectedCityReport.IsFavourie = this.IsDatabaseHasCity(SelectedCityReport.CityName);
-                this.UpdateForecastReports(forecast);
+                ForecastReports = this.GetForecastReports();
+                IsFavourie = await IsDatabaseHasCity(SelectedCityReport.CityName);
             }
 
             IsLoading = false;
         }
 
-        private bool ValidateSearchText()
-        {
-            if (IsLoading)
-            {
-                AppUtils.ShowAlert(AppConstants.DataLoadingMessage, false);
-                return false;
-            }
-            else if (string.IsNullOrEmpty(searchText))
-            {
-                AppUtils.ShowAlert(AppConstants.SearchTextEmpty, false);
-                return false;
-            }
+        #region Command Callbacks
 
-            return true;
+        private void GetUpdatedFavouriteCity()
+        {
+            IsFavourie = !IsFavourie;
+            UpdateCityInfoInDatabase(SelectedCityReport.CityName, IsFavourie);
         }
+
+        private async void GetFavouriteCities()
+        {
+            Views.FavoriteCityPage favoriteCityPage = new Views.FavoriteCityPage();
+            favoriteCityPage.BindingContext = FavouritesViewModel;
+            await Application.Current.MainPage.Navigation.PushAsync(favoriteCityPage);
+           
+        }
+
+        private void OnPageAppearing()
+        {
+            this.SelectedCityName = FavouritesViewModel.SelectedCityName;
+            this.GetWeather(true);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Private Methods
 
         private void UpdateSearchBarPosition()
         {
@@ -152,12 +169,37 @@ namespace Weather.ViewModels
             }
         }
 
-        private void UpdateForecastReports(WeatherForecast forecast)
+        private bool ValidateSearchText(bool isPageAppeared)
         {
-            if (forecast != null)
+            if (IsLoading)
+            {
+                if (!isPageAppeared)
+                {
+                    AppUtils.ShowAlert(AppConstants.DataLoadingMessage, false);
+                }
+
+                return false;
+            }
+            else if (string.IsNullOrEmpty(SelectedCityName))
+            {
+                if (!isPageAppeared)
+                {
+                    AppUtils.ShowAlert(AppConstants.SearchTextEmpty, false);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+
+        private ObservableCollection<WeatherReport> GetForecastReports()
+        {
+            if (WeatherForecast != null)
             {
                 List<WeatherReport> weatherReports = new List<WeatherReport>();
-                foreach (WeatherReport report in forecast.WeatherReport)
+                foreach (WeatherReport report in WeatherForecast.WeatherReport)
                 {
                     DateTime date = AppUtils.GetDateTime(report.Date);
                     if (date != null && date > DateTime.Now && date.Hour == 0 && date.Minute == 0 && date.Second == 0)
@@ -169,15 +211,14 @@ namespace Weather.ViewModels
                     weatherReports = weatherReports.Take(4).ToList();
                 }
 
-                ForecastReports = new ObservableCollection<WeatherReport>(weatherReports);
+                return new ObservableCollection<WeatherReport>(weatherReports);
             }
             else
             {
-                ForecastReports = new ObservableCollection<WeatherReport>();
+                return new ObservableCollection<WeatherReport>();
             }
         }
 
         #endregion
-
     }
 }

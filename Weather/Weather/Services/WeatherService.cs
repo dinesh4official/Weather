@@ -3,13 +3,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Weather.Data;
+using Weather.Helper.Interface;
 using Weather.Models;
 using Xamarin.Forms.Internals;
 
 namespace Weather.Services
 {
     [Preserve(AllMembers = true)]
-    public class WeatherService
+    public class WeatherService : IWeatherService
     {
         #region Fields
 
@@ -19,7 +20,7 @@ namespace Weather.Services
 
         #region Constructor
 
-        public WeatherService()
+        private WeatherService()
         {
 
         }
@@ -41,7 +42,7 @@ namespace Weather.Services
 
         #endregion
 
-        #region Public Methods
+        #region Interface Methods
 
         /// <summary>
         /// Gets the weather report information with respect to the city.

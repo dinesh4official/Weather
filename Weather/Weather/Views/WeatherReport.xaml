@@ -47,10 +47,10 @@
                     <ImageButton.Style>
                        <Style TargetType="{x:Type ImageButton}">
                           <Style.Triggers>
-                             <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedCityReport.IsFavourie}" Value="false">
+                             <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavourie}" Value="false">
                                 <Setter Property="Source" Value="{imageUtil:ImageResource Weather.Images.addfavourite.png}"/>
                              </DataTrigger>
-                             <DataTrigger TargetType="ImageButton" Binding="{Binding SelectedCityReport.IsFavourie}" Value="true">
+                             <DataTrigger TargetType="ImageButton" Binding="{Binding IsFavourie}" Value="true">
                                 <Setter Property="Source" Value="{imageUtil:ImageResource Weather.Images.removefavourite.png}"/>
                              </DataTrigger>
                          </Style.Triggers>
