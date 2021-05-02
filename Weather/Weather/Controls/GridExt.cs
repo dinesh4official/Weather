@@ -9,7 +9,7 @@ using Weather.Models;
 namespace Weather.Controls
 {
     [Preserve(AllMembers = true)]
-    public class GridExt : Grid
+    public class GridExt : Grid, IDisposable
     {
         #region Fields
 
@@ -17,6 +17,16 @@ namespace Weather.Controls
         /// Increaments the next index id.
         /// </summary>
         private static int NextId = 0;
+
+        /// <summary>
+        /// Contains the previous width of <see cref="CollectionView"/> to avoid the repeated layout. 
+        /// </summary>
+        double previousWidth = 0.0;
+
+        /// <summary>
+        /// Contains the previous height of <see cref="CollectionView"/> to avoid the repeated layout. 
+        /// </summary>
+        double previousHeight = 0.0;
 
         #endregion
 
@@ -38,7 +48,7 @@ namespace Weather.Controls
         internal int ItemsCount { get; set; }
 
         internal WeatherReport WeatherReport { get; set; }
-        
+
         internal int Index { get; private set; }
 
         /// <summary>
@@ -56,7 +66,7 @@ namespace Weather.Controls
         protected override void OnBindingContextChanged()
         {
             base.OnBindingContextChanged();
-            if(this.BindingContext is WeatherReport weatherReport)
+            if (this.BindingContext is WeatherReport weatherReport)
             {
                 this.WeatherReport = weatherReport;
                 this.UpdateView();
@@ -69,8 +79,10 @@ namespace Weather.Controls
         protected override void OnParentSet()
         {
             base.OnParentSet();
-            if(this.Parent is CollectionView collectionView)
+            if (this.Parent is CollectionView collectionView)
             {
+                collectionView.SizeChanged -= CollectionView_SizeChanged;
+                collectionView.SizeChanged += CollectionView_SizeChanged;
                 this.UpdateItemsCount(collectionView.ItemsSource);
                 this.UpdateView();
             }
@@ -111,6 +123,34 @@ namespace Weather.Controls
         {
             ItemsCount = itemsSource.ToList<object>().ToList().Count;
             this.UpdateView();
+        }
+
+        #endregion
+
+        #region Callback Methods
+
+        private void CollectionView_SizeChanged(object sender, EventArgs e)
+        {
+            CollectionView collectionView = sender as CollectionView;
+            //To avoid the repeated layout arrangement when device orientation is changed.
+            if (previousWidth != collectionView.Width || previousHeight != collectionView.Height)
+            {
+                this.previousWidth = collectionView.Width;
+                this.previousHeight = collectionView.Height;
+                this.UpdateView();
+            }
+        }
+
+        #endregion
+
+        #region Dispose Methods
+
+        public void Dispose()
+        {
+            if (this.Parent is CollectionView collectionView)
+            {
+                collectionView.SizeChanged -= CollectionView_SizeChanged;
+            }
         }
 
         #endregion
