@@ -25,8 +25,3 @@ In this application, we have followed the MVVM Pattern.
 
 ### iOS
 <img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_iOS.png">
-
-## Known Issue
-When the device is rotated, weather forecast view does not resize properly. Because, `Orientation` changes are not notified to child elements of the `CollectionView` 
-
-https://github.com/xamarin/Xamarin.Forms/issues/6869
