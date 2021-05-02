@@ -54,7 +54,7 @@
                   <ColumnDefinition Width="*"/>
                   <ColumnDefinition Width="0.6*"/>
               </Grid.ColumnDefinitions>
-            <controls:SearchBarExt x:Name="searchBar" Placeholder="Search by City" PlaceholderColor="White"
+            <controls:SearchBarExt x:Name="searchBar" Placeholder="Search by City or Zip Code" PlaceholderColor="White"
                                    TextColor="Black" AutomationId="WeatherSearchBar"
                                    Text="{Binding SelectedCityName}"
                                    SearchCommand="{Binding GetWeatherCommand}"
