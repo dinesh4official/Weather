@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Weather.Models;
 using Xamarin.Forms.Internals;
 
 namespace Weather.Helper.Interface
 {
     [Preserve(AllMembers = true)]
-    public interface IWeatherDatabase
+    public interface IWeatherDatabase<T>
     {
-        Task<List<CityInfo>> GetItemsAsync();
+        Task<List<T>> GetItemsAsync();
 
-        Task<CityInfo> GetItemAsync(int id);
+        Task<T> GetItemAsync(int id);
 
-        void SaveItemAsync(CityInfo item);
+        void SaveItemAsync(T item);
 
-        void DeleteItemAsync(CityInfo item);
+        void DeleteItemAsync(T item);
     }
 }

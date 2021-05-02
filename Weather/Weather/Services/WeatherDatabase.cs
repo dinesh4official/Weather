@@ -9,7 +9,7 @@ using Weather.Models;
 namespace Weather.Services
 {
     [Preserve(AllMembers = true)]
-    public class WeatherDatabase : IWeatherDatabase
+    public class WeatherDatabase : IWeatherDatabase<CityInfo>
     {
         #region Fields
 
