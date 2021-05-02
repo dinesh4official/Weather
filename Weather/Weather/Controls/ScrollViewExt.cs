@@ -28,7 +28,8 @@ namespace Weather.Controls
         public ScrollViewExt()
         {
             this.BackgroundColor = Color.Transparent;
-        }
+            this.Padding = Device.RuntimePlatform == Device.Android ? new Thickness(0, 8, 0, 0) : new Thickness(0);
+         }
 
         #endregion
 

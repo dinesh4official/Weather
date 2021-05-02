@@ -7,12 +7,6 @@
     xmlns:template="clr-namespace:Weather.Views.Template"
     x:Class="Weather.Views.WeatherReport" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
     HorizontalScrollBarVisibility="Never" VerticalScrollBarVisibility="Never">
-    <controls:ScrollViewExt.Padding>
-       <OnPlatform x:TypeArguments="Thickness">
-             <On Platform="Android" Value="0, 8, 0, 0"/>
-             <On Platform="iOS" Value="0, 0, 0, 0"/>
-       </OnPlatform>
-    </controls:ScrollViewExt.Padding>
     <controls:ScrollViewExt.Content>
       <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" RowSpacing="0"
             IsVisible="{Binding IsLoading, Converter={x:StaticResource InverseBoolConverter}}">
