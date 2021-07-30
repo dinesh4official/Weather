@@ -21,7 +21,7 @@ In this application, we have followed the MVVM Pattern.
 ## Screenshot
 
 ### Android
-<img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_Android.png">
+<img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_Android.png" width="400" height="600">
 
 ### iOS
-<img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_iOS.png">
+<img src="https://github.com/dinesh4official/Weather/blob/main/Screenshot/Weather_iOS.png" width="400" height="600">
